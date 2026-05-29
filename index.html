@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio 2025 — 设计作品集</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== Seed Tokens ========== */
+    :root {
+      --seed-bg: #08080c;
+      --seed-fg: #f0f0f5;
+      --seed-primary: #5eead4;
+      --seed-accent: #38bdf8;
+      --seed-surface: #111118;
+      --seed-surface-elevated: #1a1a25;
+      --seed-muted: #8b8b9a;
+      --seed-muted-hover: #b0b0bd;
+      --seed-border: rgba(255, 255, 255, 0.08);
+      --seed-border-hover: rgba(255, 255, 255, 0.2);
+      --seed-dot-bg: rgba(255, 255, 255, 0.15);
+      --seed-dot-border: rgba(255, 255, 255, 0.1);
+      --seed-white: #ffffff;
+      --seed-bg-subtle: rgba(255, 255, 255, 0.03);
+      --seed-bg-weak: rgba(255, 255, 255, 0.05);
+      --seed-bg-mid: rgba(255, 255, 255, 0.1);
+      --seed-glow: rgba(94, 234, 212, 0.08);
+      --seed-glow-mid: rgba(94, 234, 212, 0.15);
+      --seed-glow-medium: rgba(94, 234, 212, 0.25);
+      --seed-glow-strong: rgba(94, 234, 212, 0.4);
+      --seed-glow-bright: rgba(94, 234, 212, 0.5);
+      --seed-glow-vivid: rgba(94, 234, 212, 0.6);
+      --seed-mouse-line: rgba(94, 234, 212, 0.2);
+      --seed-shadow-deep: rgba(0, 0, 0, 0.4);
+      --seed-overlay: rgba(8, 8, 12, 0.85);
+      --seed-gradient-fade: rgba(8, 8, 12, 0.6);
+      --seed-radius: 14px;
+      --font-display: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+      --font-body: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    }
+
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--seed-bg);
+      color: var(--seed-fg);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--seed-glow-medium);
+      color: var(--seed-white);
+    }
+
+    /* ========== Canvas Background ========== */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ========== Scroll Progress ========== */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--seed-primary), var(--seed-accent));
+      z-index: 1000;
+      width: 0%;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 10px var(--seed-glow-strong);
+    }
+
+    /* ========== Side Navigation Dots ========== */
+    .side-nav {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .side-nav a {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--seed-dot-bg);
+      border: 1px solid var(--seed-dot-border);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .side-nav a::after {
+      content: attr(data-label);
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%) translateX(10px);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--seed-muted);
+      white-space: nowrap;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .side-nav a:hover::after,
+    .side-nav a.active::after {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    .side-nav a:hover,
+    .side-nav a.active {
+      background: var(--seed-primary);
+      border-color: var(--seed-primary);
+      box-shadow: 0 0 12px var(--seed-glow-bright);
+      transform: scale(1.3);
+    }
+
+    /* ========== Main Content ========== */
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========== Section Base ========== */
+    section {
+      position: relative;
+      padding: 120px 5vw;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ========== Hero ========== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 5vw;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--seed-border);
+      background: var(--seed-bg-subtle);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--seed-muted);
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--seed-primary);
+      box-shadow: 0 0 8px var(--seed-glow-vivid);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--seed-fg);
+    }
+
+    .hero h1 .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: charReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 300;
+      color: var(--seed-muted);
+      max-width: 560px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    .hero-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 40px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.1s;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--seed-muted);
+      transition: color 0.3s ease;
+    }
+
+    .contact-item:hover {
+      color: var(--seed-fg);
+    }
+
+    .contact-item svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--seed-primary);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--seed-muted);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.4s;
+    }
+
+    .scroll-hint .mouse {
+      width: 20px;
+      height: 32px;
+      border: 1.5px solid var(--seed-border-hover);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .scroll-hint .mouse::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 6px;
+      background: var(--seed-primary);
+      border-radius: 2px;
+      animation: scrollWheel 2s ease-in-out infinite;
+    }
+
+    /* ========== Section Headers ========== */
+    .section-header {
+      margin-bottom: 64px;
+    }
+
+    .section-number {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--seed-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-number::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--seed-border), transparent);
+      max-width: 120px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--seed-fg);
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--seed-muted);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* ========== Project Grid ========== */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    @media (min-width: 1024px) {
+      .project-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .project-card {
+      position: relative;
+      background: var(--seed-surface);
+      border: 1px solid var(--seed-border);
+      border-radius: var(--seed-radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.5s ease,
+                  border-color 0.3s ease;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .project-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-card:hover {
+      border-color: var(--seed-glow-mid);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+                  0 0 30px var(--seed-glow);
+    }
+
+    .card-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--seed-surface-elevated);
+    }
+
+    .card-image svg,
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .project-card:hover .card-image svg,
+    .project-card:hover .card-image img {
+      transform: scale(1.08);
+    }
+
+    .card-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, var(--seed-gradient-fade) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .project-card:hover .card-image::after {
+      opacity: 1;
+    }
+
+    .card-content {
+      padding: 24px;
+      position: relative;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--seed-glow);
+      color: var(--seed-primary);
+      border: 1px solid var(--seed-glow-mid);
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover .card-tag {
+      background: var(--seed-glow-mid);
+      border-color: var(--seed-glow-mid);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: var(--seed-fg);
+      margin-bottom: 8px;
+      transition: transform 0.4s ease;
+    }
+
+    .project-card:hover .card-title {
+      transform: translateY(-2px);
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--seed-muted);
+      line-height: 1.5;
+      transition: color 0.3s ease;
+    }
+
+    .project-card:hover .card-desc {
+      color: var(--seed-muted-hover);
+    }
+
+    .card-arrow {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--seed-bg-weak);
+      border: 1px solid var(--seed-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translate(-10px, 10px);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .card-arrow svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--seed-primary);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .project-card:hover .card-arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    /* ========== Modal ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--seed-overlay);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--seed-surface);
+      border: 1px solid var(--seed-border);
+      border-radius: var(--seed-radius);
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.9) translateY(30px);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--seed-bg-weak);
+      border: 1px solid var(--seed-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--seed-bg-mid);
+      transform: rotate(90deg);
+      border-color: var(--seed-border-hover);
+    }
+
+    .modal-close svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--seed-fg);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .modal-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--seed-surface-elevated);
+      overflow: hidden;
+    }
+
+    .modal-image svg,
+    .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-body {
+      padding: 32px;
+    }
+
+    .modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--seed-fg);
+      margin-bottom: 16px;
+    }
+
+    .modal-desc {
+      font-size: 15px;
+      color: var(--seed-muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .modal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      border-radius: 100px;
+      background: linear-gradient(135deg, var(--seed-primary), var(--seed-accent));
+      color: var(--seed-bg);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px var(--seed-glow-medium);
+    }
+
+    .modal-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--seed-glow-medium);
+    }
+
+    .modal-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--seed-bg);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* ========== Footer ========== */
+    .footer {
+      text-align: center;
+      padding: 80px 5vw 40px;
+      border-top: 1px solid var(--seed-border);
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: var(--seed-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ========== Animations ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes charReveal {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    @keyframes scrollWheel {
+      0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* ========== Reveal Animations ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+    .stagger-6 { transition-delay: 0.6s; }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      section {
+        padding: 80px 5vw;
+      }
+
+      .side-nav {
+        display: none;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-contacts {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .modal-content {
+        max-height: 95vh;
+      }
+
+      .modal-body {
+        padding: 24px;
+      }
+
+      .modal-title {
+        font-size: 22px;
+      }
+    }
+
+    /* ========== Glow Cursor ========== */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--seed-glow) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      transition: left 0.15s ease-out, top 0.15s ease-out;
+      mix-blend-mode: screen;
+    }
+
+    @media (pointer: coarse) {
+      .cursor-glow {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas Background -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Cursor Glow -->
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- Side Navigation -->
+  <nav class="side-nav" id="side-nav" data-component="side-navigation">
+    <a href="#hero" data-label="Home" class="active"></a>
+    <a href="#focused" data-label="Projects"></a>
+    <a href="#visual" data-label="Visual"></a>
+    <a href="#other" data-label="Other"></a>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- Hero -->
+    <section class="hero" id="hero" data-component="hero-section">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>Available for work</span>
+      </div>
+      <h1 id="hero-title">设计作品集 2025</h1>
+      <p class="hero-subtitle">聚焦品牌视觉、交互体验与创意系统的全链路设计师。用视觉讲述故事，用细节定义品质。</p>
+      <div class="hero-contacts">
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>1042639765@qq.com</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>13838318165</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span>Ss000923766</span>
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <div class="mouse"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- Projects: Focused Full Projects -->
+    <section id="focused" data-component="projects-focused-section">
+      <div class="section-header reveal">
+        <div class="section-number">01</div>
+        <h2 class="section-title">Focused Full Projects</h2>
+        <p class="section-desc">完整项目案例，从概念策略到视觉落地的全流程设计实践</p>
+      </div>
+      <div class="project-grid" id="grid-focused"></div>
+    </section>
+
+    <!-- Projects: Visual Design System -->
+    <section id="visual" data-component="projects-visual-section">
+      <div class="section-header reveal">
+        <div class="section-number">02</div>
+        <h2 class="section-title">Visual Design System</h2>
+        <p class="section-desc">视觉识别系统、主视觉设计、界面规范与品牌资产</p>
+      </div>
+      <div class="project-grid" id="grid-visual"></div>
+    </section>
+
+    <!-- Projects: Other Design -->
+    <section id="other" data-component="projects-other-section">
+      <div class="section-header reveal">
+        <div class="section-number">03</div>
+        <h2 class="section-title">Other Design</h2>
+        <p class="section-desc">创意实验、概念探索与多元设计实践</p>
+      </div>
+      <div class="project-grid" id="grid-other"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" data-component="footer">
+      <p class="footer-text"> Portfolio 2025 — Designed with passion</p>
+    </footer>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal" data-component="project-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close" aria-label="Close">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-image" id="modal-image"></div>
+      <div class="modal-body">
+        <div class="modal-tags" id="modal-tags"></div>
+        <h3 class="modal-title" id="modal-title"></h3>
+        <p class="modal-desc" id="modal-desc"></p>
+        <button class="modal-link" id="modal-link" type="button">
+          <span>查看作品</span>
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+       DESIGN TOKENS (JS)
+       ============================================================ */
+    const TOKENS = {
+      primary: '#5eead4',
+      accent: '#38bdf8',
+      purple: '#a78bfa',
+      pink: '#f472b6',
+      orange: '#fb923c',
+      green: '#34d399',
+      blue: '#60a5fa',
+      yellow: '#fbbf24',
+      surface: '#111118'
+    };
+
+    /* ============================================================
+       PORTFOLIO DATA — 修改此处即可自由添加/更新作品
+       ============================================================ */
+    const portfolioData = {
+      focused: [
+        {
+          title: "superX 2025",
+          tags: ["品牌设计", "H5", "全案"],
+          description: "superX 2025年度品牌全案设计，涵盖品牌策略、视觉识别系统、H5互动体验与社交媒体传播物料。以年轻化、潮流感为核心视觉语言，打造具有辨识度的电竞品牌形象。",
+          link: "https://example.com/superx2025",
+          color: TOKENS.primary
+        }
+      ],
+      visual: [
+        {
+          title: "KV 主视觉设计",
+          tags: ["KV", "视觉", "品牌"],
+          description: "多品牌活动主视觉设计，包含线上传播KV、线下展板、社交媒体适配版本。强调视觉冲击力与品牌调性的统一表达。",
+          link: "https://example.com/kv",
+          color: TOKENS.accent
+        },
+        {
+          title: "Logo 设计合集",
+          tags: ["Logo", "品牌", "VI"],
+          description: "为不同行业客户打造的Logo标识系统，涵盖科技、消费、文化等领域。每个标识都经过深度调研与多轮迭代，确保独特性与延展性。",
+          link: "https://example.com/logo",
+          color: TOKENS.purple
+        },
+        {
+          title: "APP UI 设计",
+          tags: ["UI", "移动端", "交互"],
+          description: "移动端应用界面设计，包含完整的信息架构、交互流程与视觉规范。注重用户体验与商业目标的平衡。",
+          link: "https://example.com/appui",
+          color: TOKENS.pink
+        },
+        {
+          title: "H5 互动页面",
+          tags: ["H5", "互动", "营销"],
+          description: "品牌营销活动H5页面设计，融合动画、交互与数据可视化元素，打造沉浸式的线上品牌体验。",
+          link: "https://example.com/h5",
+          color: TOKENS.orange
+        },
+        {
+          title: "superX / KPL 3D",
+          tags: ["3D", "电竞", "视觉"],
+          description: "superX与KPL合作的3D视觉设计项目，包含赛事视觉包装、3D场景搭建与动态渲染，展现电竞赛事的震撼视觉效果。",
+          link: "https://example.com/kpl3d",
+          color: TOKENS.green
+        },
+        {
+          title: "superX / KPL 视觉",
+          tags: ["视觉", "电竞", "品牌"],
+          description: "superX与KPL赛事合作的平面视觉系统设计，包括赛事海报、选手包装、直播间视觉与周边物料。",
+          link: "https://example.com/kpl",
+          color: TOKENS.blue
+        }
+      ],
+      other: [
+        {
+          title: "创意实验项目",
+          tags: ["实验", "概念", "探索"],
+          description: "个人创意实验与概念探索项目，包含材质研究、动效实验、版式探索等非商业性设计练习，持续拓展视觉表达的边界。",
+          link: "https://example.com/experiments",
+          color: TOKENS.yellow
+        }
+      ]
+    };
+
+    /* ============================================================
+       SVG PLACEHOLDER GENERATOR
+       ============================================================ */
+    function createPlaceholderSVG(title, color) {
+      const encodedTitle = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400"><rect width="640" height="400" fill="${TOKENS.surface}"/><rect x="40" y="40" width="560" height="320" rx="12" fill="${color}" fill-opacity="0.08" stroke="${color}" stroke-opacity="0.2" stroke-width="1"/><text x="320" y="200" text-anchor="middle" dominant-baseline="middle" fill="${color}" fill-opacity="0.6" font-family="system-ui,sans-serif" font-size="24" font-weight="500" letter-spacing="0.02em">${encodedTitle}</text></svg>`)}`;
+    }
+
+    /* ============================================================
+       RENDER PROJECT CARDS
+       ============================================================ */
+    function renderGrid(containerId, projects) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = projects.map((project, index) => {
+        const svgUrl = createPlaceholderSVG(project.title, project.color || TOKENS.primary);
+        const tagsHtml = project.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
+        return `
+          <article class="project-card reveal stagger-${Math.min(index + 1, 6)}" data-index="${index}" data-category="${containerId.replace('grid-', '')}">
+            <div class="card-image">
+              <img src="${svgUrl}" alt="${project.title}" loading="lazy">
+            </div>
+            <div class="card-content">
+              <div class="card-tags">${tagsHtml}</div>
+              <h3 class="card-title">${project.title}</h3>
+              <p class="card-desc">${project.description.substring(0, 60)}...</p>
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    renderGrid('grid-focused', portfolioData.focused);
+    renderGrid('grid-visual', portfolioData.visual);
+    renderGrid('grid-other', portfolioData.other);
+
+    /* ============================================================
+       MODAL LOGIC
+       ============================================================ */
+    const modal = document.getElementById('modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalImage = document.getElementById('modal-image');
+    const modalTags = document.getElementById('modal-tags');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalLink = document.getElementById('modal-link');
+
+    function openModal(project) {
+      const svgUrl = createPlaceholderSVG(project.title, project.color || '#5eead4');
+      modalImage.innerHTML = `<img src="${svgUrl}" alt="${project.title}">`;
+      modalTags.innerHTML = project.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
+      modalTitle.textContent = project.title;
+      modalDesc.textContent = project.description;
+      modalLink.onclick = () => window.open(project.link, '_blank', 'noopener,noreferrer');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const category = card.dataset.category;
+        const index = parseInt(card.dataset.index);
+        const project = portfolioData[category][index];
+        if (project) openModal(project);
+      });
+    });
+
+    /* ============================================================
+       HERO CHARACTER ANIMATION
+       ============================================================ */
+    const heroTitle = document.getElementById('hero-title');
+    const titleText = heroTitle.textContent;
+    heroTitle.innerHTML = titleText.split('').map((char, i) => {
+      const delay = 0.4 + (i * 0.04);
+      return `<span class="char" style="animation-delay: ${delay}s">${char === ' ' ? '&nbsp;' : char}</span>`;
+    }).join('');
+
+    /* ============================================================
+       SCROLL REVEAL (Intersection Observer)
+       ============================================================ */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal, .project-card').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    /* ============================================================
+       SCROLL PROGRESS & SIDE NAV
+       ============================================================ */
+    const scrollProgress = document.getElementById('scroll-progress');
+    const sideNavLinks = document.querySelectorAll('.side-nav a');
+    const sections = ['hero', 'focused', 'visual', 'other'];
+
+    function updateScrollState() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgress.style.width = progress + '%';
+
+      let current = 'hero';
+      sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.4) {
+            current = id;
+          }
+        }
+      });
+
+      sideNavLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    }
+
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+    updateScrollState();
+
+    /* ============================================================
+       CURSOR GLOW
+       ============================================================ */
+    const cursorGlow = document.getElementById('cursor-glow');
+    let mouseX = -500, mouseY = -500;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorGlow.style.left = mouseX + 'px';
+      cursorGlow.style.top = mouseY + 'px';
+    });
+
+    /* ============================================================
+       PARTICLE CANVAS SYSTEM
+       ============================================================ */
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId;
+    let canvasWidth, canvasHeight;
+
+    function resizeCanvas() {
+      canvasWidth = window.innerWidth;
+      canvasHeight = window.innerHeight;
+      canvas.width = canvasWidth * window.devicePixelRatio;
+      canvas.height = canvasHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvasWidth;
+        this.y = Math.random() * canvasHeight;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.radius = Math.random() * 1.5 + 0.5;
+        this.baseAlpha = Math.random() * 0.3 + 0.1;
+        this.alpha = this.baseAlpha;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvasWidth) this.vx *= -1;
+        if (this.y < 0 || this.y > canvasHeight) this.vy *= -1;
+
+        // Mouse interaction
+        const dx = mouseX - this.x;
+        const dy = mouseY - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const interactRadius = 180;
+
+        if (dist < interactRadius) {
+          const force = (interactRadius - dist) / interactRadius;
+          this.x -= (dx / dist) * force * 1.2;
+          this.y -= (dy / dist) * force * 1.2;
+          this.alpha = Math.min(1, this.baseAlpha + force * 0.6);
+        } else {
+          this.alpha += (this.baseAlpha - this.alpha) * 0.05;
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(148, 200, 220, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      const isMobile = window.innerWidth < 768;
+      const count = isMobile ? 40 : 90;
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function drawLines() {
+      const maxDist = 120;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDist) {
+            const alpha = (1 - dist / maxDist) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(148, 200, 220, ${alpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+
+        // Lines to mouse
+        const mdx = mouseX - particles[i].x;
+        const mdy = mouseY - particles[i].y;
+        const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mDist < 200) {
+          const alpha = (1 - mDist / 200) * 0.2;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(mouseX, mouseY);
+          ctx.strokeStyle = `rgba(94, 234, 212, ${alpha})`; // particle line uses primary accent
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    let lastTime = 0;
+    function animate(currentTime) {
+      // Throttle to ~30fps for performance
+      if (currentTime - lastTime < 33) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+      lastTime = currentTime;
+
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      drawLines();
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    resizeCanvas();
+    initParticles();
+    animate(0);
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      initParticles();
+    });
+
+    /* ============================================================
+       3D CARD TILT EFFECT
+       ============================================================ */
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / centerY * -6;
+        const rotateY = (x - centerX) / centerX * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px) scale(1.01)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    /* ============================================================
+       SMOOTH SCROLL FOR SIDE NAV
+       ============================================================ */
+    sideNavLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
