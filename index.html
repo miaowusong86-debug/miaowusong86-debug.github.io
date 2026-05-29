@@ -603,6 +603,103 @@
       margin-bottom: 28px;
     }
 
+    /* ========== Modal Sections (Accordion) ========== */
+    .modal-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-section {
+      border: 1px solid var(--seed-border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .modal-section:hover {
+      border-color: var(--seed-glow-mid);
+    }
+
+    .modal-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--seed-bg-weak);
+      cursor: pointer;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    .modal-section-header:hover {
+      background: var(--seed-bg-mid);
+    }
+
+    .modal-section-header h4 {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--seed-fg);
+      margin: 0;
+    }
+
+    .modal-section-arrow {
+      width: 20px;
+      height: 20px;
+      stroke: var(--seed-muted);
+      stroke-width: 2;
+      fill: none;
+      transition: transform 0.3s ease;
+    }
+
+    .modal-section.open .modal-section-arrow {
+      transform: rotate(180deg);
+    }
+
+    .modal-section-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-section.open .modal-section-content {
+      max-height: 2000px;
+    }
+
+    .modal-section-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+
+    .modal-section-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-section-note {
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--seed-muted);
+      line-height: 1.5;
+      border-top: 1px solid var(--seed-border);
+    }
+
+    /* ========== Modal Hero Image ========== */
+    .modal-hero {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: var(--seed-radius) var(--seed-radius) 0 0;
+    }
+
+    .modal-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .modal-link {
       display: inline-flex;
       align-items: center;
@@ -828,15 +925,12 @@
       <button class="modal-close" id="modal-close" aria-label="Close">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <div class="modal-image" id="modal-image"></div>
+      <div class="modal-hero" id="modal-hero"></div>
       <div class="modal-body">
         <div class="modal-tags" id="modal-tags"></div>
         <h3 class="modal-title" id="modal-title"></h3>
         <p class="modal-desc" id="modal-desc"></p>
-        <button class="modal-link" id="modal-link" type="button">
-          <span>查看作品</span>
-          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </button>
+        <div class="modal-sections" id="modal-sections"></div>
       </div>
     </div>
   </div>
@@ -866,8 +960,10 @@
           title: "superX 2025",
           tags: ["品牌设计", "H5", "全案"],
           description: "superX 2025年度品牌全案设计，涵盖品牌策略、视觉识别系统、H5互动体验与社交媒体传播物料。以年轻化、潮流感为核心视觉语言，打造具有辨识度的电竞品牌形象。",
-          link: "https://mp.weixin.qq.com/s/ZxA0Y1gPX4OtJWLI7QckHQ",
-          image: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg",
+          cover: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg",
+          sections: [
+            { title: "主视觉海报", image: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg" },
+          ],
           color: TOKENS.primary
         }
       ],
@@ -941,7 +1037,7 @@
       const container = document.getElementById(containerId);
       if (!container) return;
       container.innerHTML = projects.map((project, index) => {
-        const imgSrc = project.image || createPlaceholderSVG(project.title, project.color || TOKENS.primary);
+        const imgSrc = project.cover || createPlaceholderSVG(project.title, project.color || TOKENS.primary);
         const tagsHtml = project.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
         return `
           <article class="project-card reveal stagger-${Math.min(index + 1, 6)}" data-index="${index}" data-category="${containerId.replace('grid-', '')}">
@@ -970,21 +1066,44 @@
        ============================================================ */
     const modal = document.getElementById('modal');
     const modalClose = document.getElementById('modal-close');
-    const modalImage = document.getElementById('modal-image');
+    const modalHero = document.getElementById('modal-hero');
     const modalTags = document.getElementById('modal-tags');
     const modalTitle = document.getElementById('modal-title');
     const modalDesc = document.getElementById('modal-desc');
-    const modalLink = document.getElementById('modal-link');
+    const modalSections = document.getElementById('modal-sections');
 
     function openModal(project) {
-      const imgSrc = project.image || createPlaceholderSVG(project.title, project.color || TOKENS.primary);
-      modalImage.innerHTML = `<img src="${imgSrc}" alt="${project.title}">`;
+      const coverSrc = project.cover || createPlaceholderSVG(project.title, project.color || TOKENS.primary);
+      modalHero.innerHTML = `<img src="${coverSrc}" alt="${project.title}">`;
       modalTags.innerHTML = project.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
       modalTitle.textContent = project.title;
       modalDesc.textContent = project.description;
-      modalLink.onclick = () => window.open(project.link, '_blank', 'noopener,noreferrer');
+
+      // Render collapsible sections
+      const sections = project.sections || [];
+      modalSections.innerHTML = sections.map((section, i) => {
+        const imgSrc = section.image || createPlaceholderSVG(section.title, project.color || TOKENS.primary);
+        return `
+          <div class="modal-section" data-section-index="${i}">
+            <div class="modal-section-header" onclick="toggleSection(this)">
+              <h4>${section.title}</h4>
+              <svg class="modal-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="modal-section-content">
+              <div class="modal-section-image"><img src="${imgSrc}" alt="${section.title}" loading="lazy"></div>
+              ${section.note ? `<div class="modal-section-note">${section.note}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+    }
+
+    function toggleSection(header) {
+      const section = header.parentElement;
+      section.classList.toggle('open');
     }
 
     function closeModal() {
