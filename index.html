@@ -659,11 +659,12 @@
     .modal-section-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+      opacity: 0;
     }
 
     .modal-section.open .modal-section-content {
-      max-height: 2000px;
+      opacity: 1;
     }
 
     .modal-section-image {
@@ -1103,8 +1104,27 @@
 
     function toggleSection(header) {
       const section = header.parentElement;
-      section.classList.toggle('open');
+      const content = section.querySelector('.modal-section-content');
+      const isOpen = section.classList.contains('open');
+
+      if (isOpen) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          content.style.maxHeight = '0px';
+          section.classList.remove('open');
+        });
+      } else {
+        section.classList.add('open');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
     }
+
+    // Cleanup max-height after transition
+    document.addEventListener('transitionend', (e) => {
+      if (e.target.classList.contains('modal-section-content') && !e.target.parentElement.classList.contains('open')) {
+        e.target.style.maxHeight = '0px';
+      }
+    });
 
     function closeModal() {
       modal.classList.remove('active');
@@ -1367,6 +1387,83 @@
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
+    });
+
+    /* ============================================================
+       CLICK TO FLIP PAGES
+       ============================================================ */
+    let isFlipping = false;
+
+    document.addEventListener('click', (e) => {
+      // Ignore clicks on interactive elements
+      if (e.target.closest('a, button, .project-card, .modal-section-header, .modal-content, input, select, textarea')) return;
+      if (isFlipping) return;
+
+      const viewportHeight = window.innerHeight;
+      const clickRatio = e.clientY / viewportHeight;
+      const currentScroll = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // Find current section
+      let currentSectionIndex = 0;
+      sections.forEach((id, i) => {
+        const section = document.getElementById(id);
+        if (section && section.offsetTop <= currentScroll + viewportHeight * 0.5) {
+          currentSectionIndex = i;
+        }
+      });
+
+      let targetIndex;
+      if (clickRatio < 0.4) {
+        // Click top area -> go up
+        targetIndex = Math.max(0, currentSectionIndex - 1);
+      } else if (clickRatio > 0.6) {
+        // Click bottom area -> go down
+        targetIndex = Math.min(sections.length - 1, currentSectionIndex + 1);
+      } else {
+        return; // Middle area, do nothing
+      }
+
+      if (targetIndex !== currentSectionIndex) {
+        isFlipping = true;
+        const targetSection = document.getElementById(sections[targetIndex]);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setTimeout(() => { isFlipping = false; }, 800);
+        }
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.target.closest('input, textarea, select')) return;
+      if (isFlipping) return;
+
+      const currentScroll = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      let currentSectionIndex = 0;
+      sections.forEach((id, i) => {
+        const section = document.getElementById(id);
+        if (section && section.offsetTop <= currentScroll + viewportHeight * 0.5) {
+          currentSectionIndex = i;
+        }
+      });
+
+      let targetIndex = currentSectionIndex;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        targetIndex = Math.min(sections.length - 1, currentSectionIndex + 1);
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        targetIndex = Math.max(0, currentSectionIndex - 1);
+      }
+
+      if (targetIndex !== currentSectionIndex) {
+        isFlipping = true;
+        const targetSection = document.getElementById(sections[targetIndex]);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setTimeout(() => { isFlipping = false; }, 800);
+        }
+      }
     });
   </script>
 </body>
