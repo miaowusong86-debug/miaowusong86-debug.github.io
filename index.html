@@ -866,7 +866,8 @@
           title: "superX 2025",
           tags: ["品牌设计", "H5", "全案"],
           description: "superX 2025年度品牌全案设计，涵盖品牌策略、视觉识别系统、H5互动体验与社交媒体传播物料。以年轻化、潮流感为核心视觉语言，打造具有辨识度的电竞品牌形象。",
-          link: "https://example.com/superx2025",
+          link: "https://mp.weixin.qq.com/s/ZxA0Y1gPX4OtJWLI7QckHQ",
+          image: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg",
           color: TOKENS.primary
         }
       ],
@@ -940,12 +941,12 @@
       const container = document.getElementById(containerId);
       if (!container) return;
       container.innerHTML = projects.map((project, index) => {
-        const svgUrl = createPlaceholderSVG(project.title, project.color || TOKENS.primary);
+        const imgSrc = project.image || createPlaceholderSVG(project.title, project.color || TOKENS.primary);
         const tagsHtml = project.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
         return `
           <article class="project-card reveal stagger-${Math.min(index + 1, 6)}" data-index="${index}" data-category="${containerId.replace('grid-', '')}">
             <div class="card-image">
-              <img src="${svgUrl}" alt="${project.title}" loading="lazy">
+              <img src="${imgSrc}" alt="${project.title}" loading="lazy">
             </div>
             <div class="card-content">
               <div class="card-tags">${tagsHtml}</div>
@@ -976,8 +977,8 @@
     const modalLink = document.getElementById('modal-link');
 
     function openModal(project) {
-      const svgUrl = createPlaceholderSVG(project.title, project.color || '#5eead4');
-      modalImage.innerHTML = `<img src="${svgUrl}" alt="${project.title}">`;
+      const imgSrc = project.image || createPlaceholderSVG(project.title, project.color || TOKENS.primary);
+      modalImage.innerHTML = `<img src="${imgSrc}" alt="${project.title}">`;
       modalTags.innerHTML = project.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
       modalTitle.textContent = project.title;
       modalDesc.textContent = project.description;
