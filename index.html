@@ -10,32 +10,32 @@
   <style>
     /* ========== Seed Tokens ========== */
     :root {
-      --seed-bg: #08080c;
-      --seed-fg: #f0f0f5;
-      --seed-primary: #5eead4;
-      --seed-accent: #38bdf8;
-      --seed-surface: #111118;
-      --seed-surface-elevated: #1a1a25;
-      --seed-muted: #8b8b9a;
-      --seed-muted-hover: #b0b0bd;
-      --seed-border: rgba(255, 255, 255, 0.08);
-      --seed-border-hover: rgba(255, 255, 255, 0.2);
-      --seed-dot-bg: rgba(255, 255, 255, 0.15);
-      --seed-dot-border: rgba(255, 255, 255, 0.1);
+      --seed-bg: #0a0a12;
+      --seed-fg: #f0eef5;
+      --seed-primary: #a855f7;
+      --seed-accent: #c084fc;
+      --seed-surface: #12111c;
+      --seed-surface-elevated: #1a1828;
+      --seed-muted: #8a85a0;
+      --seed-muted-hover: #b0aac0;
+      --seed-border: rgba(168, 85, 247, 0.12);
+      --seed-border-hover: rgba(168, 85, 247, 0.3);
+      --seed-dot-bg: rgba(168, 85, 247, 0.15);
+      --seed-dot-border: rgba(168, 85, 247, 0.1);
       --seed-white: #ffffff;
-      --seed-bg-subtle: rgba(255, 255, 255, 0.03);
-      --seed-bg-weak: rgba(255, 255, 255, 0.05);
-      --seed-bg-mid: rgba(255, 255, 255, 0.1);
-      --seed-glow: rgba(94, 234, 212, 0.08);
-      --seed-glow-mid: rgba(94, 234, 212, 0.15);
-      --seed-glow-medium: rgba(94, 234, 212, 0.25);
-      --seed-glow-strong: rgba(94, 234, 212, 0.4);
-      --seed-glow-bright: rgba(94, 234, 212, 0.5);
-      --seed-glow-vivid: rgba(94, 234, 212, 0.6);
-      --seed-mouse-line: rgba(94, 234, 212, 0.2);
-      --seed-shadow-deep: rgba(0, 0, 0, 0.4);
-      --seed-overlay: rgba(8, 8, 12, 0.85);
-      --seed-gradient-fade: rgba(8, 8, 12, 0.6);
+      --seed-bg-subtle: rgba(168, 85, 247, 0.04);
+      --seed-bg-weak: rgba(168, 85, 247, 0.06);
+      --seed-bg-mid: rgba(168, 85, 247, 0.1);
+      --seed-glow: rgba(168, 85, 247, 0.1);
+      --seed-glow-mid: rgba(168, 85, 247, 0.18);
+      --seed-glow-medium: rgba(168, 85, 247, 0.28);
+      --seed-glow-strong: rgba(168, 85, 247, 0.45);
+      --seed-glow-bright: rgba(168, 85, 247, 0.55);
+      --seed-glow-vivid: rgba(168, 85, 247, 0.65);
+      --seed-mouse-line: rgba(168, 85, 247, 0.25);
+      --seed-shadow-deep: rgba(0, 0, 0, 0.5);
+      --seed-overlay: rgba(10, 10, 18, 0.88);
+      --seed-gradient-fade: rgba(10, 10, 18, 0.65);
       --seed-radius: 14px;
       --font-display: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
       --font-body: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
@@ -941,15 +941,15 @@
        DESIGN TOKENS (JS)
        ============================================================ */
     const TOKENS = {
-      primary: '#5eead4',
-      accent: '#38bdf8',
-      purple: '#a78bfa',
-      pink: '#f472b6',
-      orange: '#fb923c',
+      primary: '#a855f7',
+      accent: '#c084fc',
+      purple: '#9333ea',
+      pink: '#d946ef',
+      orange: '#f59e0b',
       green: '#34d399',
-      blue: '#60a5fa',
+      blue: '#818cf8',
       yellow: '#fbbf24',
-      surface: '#111118'
+      surface: '#12111c'
     };
 
     /* ============================================================
@@ -958,58 +958,66 @@
     const portfolioData = {
       focused: [
         {
-          title: "superX 2025",
+          title: "Super X 2025",
           tags: ["品牌设计", "H5", "全案"],
-          description: "superX 2025年度品牌全案设计，涵盖品牌策略、视觉识别系统、H5互动体验与社交媒体传播物料。以年轻化、潮流感为核心视觉语言，打造具有辨识度的电竞品牌形象。",
+          description: "Super X 2025年度品牌全案设计，涵盖品牌策略、视觉识别系统、H5互动体验与社交媒体传播物料。以年轻化、潮流感为核心视觉语言，打造具有辨识度的电竞品牌形象。",
           cover: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg",
           sections: [
             { title: "主视觉海报", image: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg" },
           ],
           color: TOKENS.primary
+        },
+        {
+          title: "温州大峃镇红色纪念馆",
+          tags: ["展馆设计", "红色文化", "全案"],
+          description: "温州大峃镇红色纪念馆品牌全案设计，从空间导视到视觉系统，以红色文化为核心叙事线索，融合现代设计语言，打造沉浸式红色教育体验空间。",
+          cover: "",
+          sections: [
+            { title: "主视觉", image: "", note: "待添加图片" },
+          ],
+          color: TOKENS.accent
+        },
+        {
+          title: "\"茉+\"咖啡店",
+          tags: ["品牌设计", "空间", "全案"],
+          description: "\"茉+\"咖啡店品牌全案设计，以茉莉花为核心意象，打造清新自然的咖啡品牌形象，涵盖Logo、空间视觉、包装及周边物料。",
+          cover: "",
+          sections: [
+            { title: "品牌主视觉", image: "", note: "待添加图片" },
+          ],
+          color: TOKENS.purple
         }
       ],
       visual: [
         {
-          title: "KV 主视觉设计",
-          tags: ["KV", "视觉", "品牌"],
-          description: "多品牌活动主视觉设计，包含线上传播KV、线下展板、社交媒体适配版本。强调视觉冲击力与品牌调性的统一表达。",
-          link: "https://example.com/kv",
-          color: TOKENS.accent
+          title: "数字广告设计",
+          tags: ["广告", "数字媒体", "视觉"],
+          description: "多平台数字广告视觉设计，涵盖信息流广告、搜索广告、开屏广告等，注重高转化率与品牌一致性的平衡。",
+          color: TOKENS.primary
         },
         {
-          title: "Logo 设计合集",
-          tags: ["Logo", "品牌", "VI"],
-          description: "为不同行业客户打造的Logo标识系统，涵盖科技、消费、文化等领域。每个标识都经过深度调研与多轮迭代，确保独特性与延展性。",
-          link: "https://example.com/logo",
-          color: TOKENS.purple
+          title: "新媒体运营物料设计",
+          tags: ["新媒体", "运营", "社交"],
+          description: "微信公众号、小红书、微博等社交平台运营物料设计，包括封面图、长图、海报、话题配图等。",
+          color: TOKENS.accent
         },
         {
           title: "APP UI 设计",
           tags: ["UI", "移动端", "交互"],
-          description: "移动端应用界面设计，包含完整的信息架构、交互流程与视觉规范。注重用户体验与商业目标的平衡。",
-          link: "https://example.com/appui",
+          description: "移动端应用界面设计，包含完整的信息架构、交互流程与视觉规范，注重用户体验与商业目标的平衡。",
+          color: TOKENS.purple
+        },
+        {
+          title: "品牌 & 活动物料设计",
+          tags: ["品牌", "活动", "物料"],
+          description: "品牌活动全套物料设计，包括易拉宝、展架、胸牌、签到墙、伴手礼包装等线上线下物料。",
           color: TOKENS.pink
         },
         {
-          title: "H5 互动页面",
-          tags: ["H5", "互动", "营销"],
-          description: "品牌营销活动H5页面设计，融合动画、交互与数据可视化元素，打造沉浸式的线上品牌体验。",
-          link: "https://example.com/h5",
+          title: "包装设计",
+          tags: ["包装", "产品", "品牌"],
+          description: "产品包装设计，从概念草图到成品落地，涵盖食品、饮品、美妆等多个品类。",
           color: TOKENS.orange
-        },
-        {
-          title: "superX / KPL 3D",
-          tags: ["3D", "电竞", "视觉"],
-          description: "superX与KPL合作的3D视觉设计项目，包含赛事视觉包装、3D场景搭建与动态渲染，展现电竞赛事的震撼视觉效果。",
-          link: "https://example.com/kpl3d",
-          color: TOKENS.green
-        },
-        {
-          title: "superX / KPL 视觉",
-          tags: ["视觉", "电竞", "品牌"],
-          description: "superX与KPL赛事合作的平面视觉系统设计，包括赛事海报、选手包装、直播间视觉与周边物料。",
-          link: "https://example.com/kpl",
-          color: TOKENS.blue
         }
       ],
       other: [
@@ -1277,7 +1285,7 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(148, 200, 220, ${this.alpha})`;
+        ctx.fillStyle = `rgba(168, 85, 247, ${this.alpha})`;
         ctx.fill();
       }
     }
@@ -1304,7 +1312,7 @@
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(148, 200, 220, ${alpha})`;
+            ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -1394,7 +1402,7 @@
        ============================================================ */
     let isFlipping = false;
 
-    document.addEventListener('click', (e) => {
+    document.querySelector('.content').addEventListener('click', (e) => {
       // Ignore clicks on interactive elements
       if (e.target.closest('a, button, .project-card, .modal-section-header, .modal-content, input, select, textarea')) return;
       if (isFlipping) return;
@@ -1402,7 +1410,6 @@
       const viewportHeight = window.innerHeight;
       const clickRatio = e.clientY / viewportHeight;
       const currentScroll = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
 
       // Find current section
       let currentSectionIndex = 0;
@@ -1421,7 +1428,7 @@
         // Click bottom area -> go down
         targetIndex = Math.min(sections.length - 1, currentSectionIndex + 1);
       } else {
-        return; // Middle area, do nothing
+        return;
       }
 
       if (targetIndex !== currentSectionIndex) {
