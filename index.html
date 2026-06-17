@@ -6,7 +6,7 @@
   <title>Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     /* ========== Seed Tokens ========== */
     :root {
@@ -195,13 +195,17 @@
     }
 
     .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(40px, 6vw, 80px);
-      font-weight: 600;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 24px;
+      font-family: 'Syne', var(--font-display);
+      font-size: clamp(52px, 9vw, 130px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: 0em;
+      margin-bottom: 28px;
       color: var(--seed-fg);
+      text-shadow:
+        0 0 60px rgba(168, 85, 247, 0.2),
+        0 0 120px rgba(168, 85, 247, 0.08);
+      position: relative;
     }
 
     .hero h1 .char {
@@ -209,17 +213,33 @@
       opacity: 0;
       transform: translateY(40px);
       animation: charReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      position: relative;
+    }
+
+    .hero h1 .char::after {
+      content: attr(data-char);
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: transparent;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      -webkit-background-clip: text;
+      background-clip: text;
+      pointer-events: none;
+      mix-blend-mode: overlay;
     }
 
     .hero-subtitle {
-      font-size: clamp(16px, 1.8vw, 22px);
+      font-size: clamp(12px, 1vw, 15px);
       font-weight: 300;
       color: var(--seed-muted);
-      max-width: 560px;
+      white-space: nowrap;
       line-height: 1.6;
       margin-bottom: 48px;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.8s;
+      letter-spacing: 0.04em;
     }
 
     .hero-contacts {
@@ -818,14 +838,14 @@
     /* ========== Glow Cursor ========== */
     .cursor-glow {
       position: fixed;
-      width: 300px;
-      height: 300px;
+      width: 400px;
+      height: 400px;
       border-radius: 50%;
-      background: radial-gradient(circle, var(--seed-glow) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(168, 85, 247, 0.08) 40%, transparent 70%);
       pointer-events: none;
       z-index: 2;
       transform: translate(-50%, -50%);
-      transition: left 0.15s ease-out, top 0.15s ease-out;
+      transition: left 0.12s ease-out, top 0.12s ease-out;
       mix-blend-mode: screen;
     }
 
@@ -1084,6 +1104,11 @@
       .about-skills-grid {
         grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
       }
+
+      .hero-subtitle {
+        white-space: normal;
+        font-size: clamp(11px, 2.5vw, 14px);
+      }
     }
   </style>
 </head>
@@ -1115,7 +1140,7 @@
         <span>Available for work</span>
       </div>
       <h1 id="hero-title">Portfolio</h1>
-      <p class="hero-subtitle">聚焦品牌视觉、交互体验与创意系统的全链路设计师。用视觉讲述故事，用细节定义品质。</p>
+      <p class="hero-subtitle">Visual & UI Designer for seamless brand & digital experiences.</p>
       <div class="hero-contacts">
         <div class="contact-item">
           <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -1142,8 +1167,8 @@
         <!-- Left Column: Photo + Intro -->
         <div class="about-left">
           <div class="about-name-line">
-            <span class="about-name">宋爽</span>
-            <span class="about-name-en">Song Shuang</span>
+            <span class="about-name">宋淼淼</span>
+            <span class="about-name-en">Miya</span>
           </div>
 
           <div class="about-photo-wrapper reveal">
@@ -1151,11 +1176,11 @@
           </div>
 
           <p class="about-intro-text">
-            <span class="highlight">全链路视觉设计师</span>，专注于品牌视觉、交互体验与创意系统设计。从策略洞察到视觉落地，擅长用系统化的设计思维解决商业问题。
+            <span class="highlight">平面设计师 / UI设计师</span>，毕业于华东理工大学，多年视觉设计经验。专业基础扎实，审美主流，擅长品牌全案设计与视觉体系构建，熟练运用AIGC工具高效产出。
           </p>
 
           <p class="about-bio">
-            2000年2月生，河南新乡人。毕业于<strong>河南大学·视觉传达设计</strong>专业，拥有扎实的平面设计与数字媒体基础。热爱设计，相信好的视觉能讲故事、传递价值。
+            精通全套设计软件：PS、AI、AE、PR、ID、Axure、C4D、ZBrush、Procreate，设计技能覆盖全链路。思维多元开放，擅长融合跨领域设计思路，工作严谨负责。
           </p>
         </div>
 
@@ -1167,8 +1192,8 @@
             <div class="about-timeline">
               <div class="timeline-item">
                 <div class="timeline-content">
-                  <h4>河南大学 · 视觉传达设计</h4>
-                  <p>2018.09 — 2022.06 ｜ 本科 ｜ 绩点 3.7/4.0</p>
+                  <h4>华东理工大学</h4>
+                  <p>本科</p>
                 </div>
               </div>
             </div>
@@ -1180,23 +1205,37 @@
             <div class="about-timeline">
               <div class="timeline-item">
                 <div class="timeline-content">
-                  <h4>上海某科技有限公司 · 视觉设计师</h4>
-                  <p>2021.06 — 2023.07</p>
-                  <p>主导品牌视觉体系建设，负责线上线下全渠道设计输出，包含品牌VI、活动物料、数字广告及新媒体运营视觉。</p>
+                  <h4>河南华中食品有限公司 · 平面&包装设计师</h4>
+                  <p>2025.05 — 2025.12</p>
+                  <p>主导休闲食品新品全流程包装设计，涵盖袋装、节日礼盒、不干胶标签；承接品牌全渠道平面物料，统一品牌视觉规范。</p>
                 </div>
               </div>
               <div class="timeline-item">
                 <div class="timeline-content">
-                  <h4>北京某传媒有限公司 · 平面设计师</h4>
-                  <p>2019.07 — 2021.05</p>
-                  <p>参与多个品牌项目的视觉设计，涵盖包装、海报、展陈物料等，积累了从概念到落地的全链路经验。</p>
+                  <h4>郑州华森传媒有限公司 · 平面设计师</h4>
+                  <p>2025.02 — 2025.04</p>
+                  <p>原创活动主视觉与投标方案，落地营销视觉方案与线下印刷物料；H5页面、短视频信息流广告、社群小程序UI全链路设计。</p>
                 </div>
               </div>
               <div class="timeline-item">
                 <div class="timeline-content">
-                  <h4>某艺术设计工作室 · 设计实习生</h4>
-                  <p>2018.09 — 2019.06</p>
-                  <p>参与商业空间视觉设计项目，协助完成导视系统、品牌物料等设计工作，初步建立专业设计思维。</p>
+                  <h4>智联招聘华北分部 · 平面设计师</h4>
+                  <p>2024.03 — 2024.08</p>
+                  <p>为合作企业定制线上线下招聘宣传物料，负责公众号图文排版设计，策划招聘活动现场布置物料与宣传手册。</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-content">
+                  <h4>上海锡鼎智能科技有限公司 · 平面设计师</h4>
+                  <p>2022.06 — 2023.12</p>
+                  <p>参与品牌创意策略研讨，全权负责品牌视觉体系设计；独立承接展馆、展会、文化墙等空间视觉项目，对接客户高效沟通。</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-content">
+                  <h4>上海佰贝科技有限公司 · 设计助理</h4>
+                  <p>2021.05 — 2021.07</p>
+                  <p>配合设计师完成前期筹备工作，协助绘制效果图，统一归档管理设计源文件与图文资料。</p>
                 </div>
               </div>
             </div>
@@ -1208,14 +1247,14 @@
             <div class="about-skills-grid">
               <span class="skill-chip">Photoshop</span>
               <span class="skill-chip">Illustrator</span>
-              <span class="skill-chip">InDesign</span>
               <span class="skill-chip">After Effects</span>
-              <span class="skill-chip">C4D</span>
-              <span class="skill-chip">Figma</span>
-              <span class="skill-chip">Sketch</span>
-              <span class="skill-chip">Blender</span>
+              <span class="skill-chip">Premiere Pro</span>
+              <span class="skill-chip">InDesign</span>
               <span class="skill-chip">Axure</span>
-              <span class="skill-chip">Principle</span>
+              <span class="skill-chip">C4D</span>
+              <span class="skill-chip">ZBrush</span>
+              <span class="skill-chip">Procreate</span>
+              <span class="skill-chip">AIGC</span>
             </div>
           </div>
         </div>
@@ -1296,22 +1335,22 @@
     const portfolioData = {
       focused: [
         {
-          title: "Super X 2025",
-          tags: ["品牌设计", "H5", "全案"],
-          description: "Super X 2025年度品牌全案设计，以电竞文化为灵感原点，构建从品牌策略、视觉识别到H5互动体验的完整传播链路，打造高辨识度的年轻化品牌形象。",
+          title: "勇闯天涯 SuperX 河南高校电竞季",
+          tags: ["品牌全案", "H5", "电竞赛事"],
+          description: "为雪花啤酒旗下年轻化品牌「勇闯天涯SuperX」策划河南高校电竞赛事，覆盖30+高校、1200+名选手。主导赛事主视觉、H5互动报名页、抽奖小程序UI、系列海报及线下模块化物料设计，实现跨平台品牌视觉一致性。",
           cover: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg",
           sections: [
-            { title: "主视觉海报", image: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg" },
+            { title: "赛事主视觉", image: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg" },
           ],
           color: TOKENS.primary
         },
         {
-          title: "温州大峃镇红色纪念馆",
+          title: "温州大峃镇红色文化纪念馆",
           tags: ["展馆设计", "红色文化", "全案"],
-          description: "温州大峃镇红色纪念馆品牌全案，以红色文化叙事为核心，统筹空间导视、视觉系统与品牌物料设计，构建沉浸式的红色教育体验空间。",
+          description: "温州大峃镇红色纪念馆全案视觉设计执行，负责展馆内所有墙面造型设计、图文版式规划、展线内容分层、参观动线优化及后期制作工艺把控。以红为主色调搭配暖灰，强化庄重感与历史温度。",
           cover: "",
           sections: [
-            { title: "主视觉", image: "", note: "待添加图片" },
+            { title: "展馆主视觉", image: "", note: "待添加图片" },
           ],
           color: TOKENS.accent
         },
@@ -1536,7 +1575,7 @@
     const titleText = heroTitle.textContent;
     heroTitle.innerHTML = titleText.split('').map((char, i) => {
       const delay = 0.4 + (i * 0.04);
-      return `<span class="char" style="animation-delay: ${delay}s">${char === ' ' ? '&nbsp;' : char}</span>`;
+      return `<span class="char" data-char="${char}" style="animation-delay: ${delay}s">${char === ' ' ? '&nbsp;' : char}</span>`;
     }).join('');
 
     /* ============================================================
