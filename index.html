@@ -687,24 +687,67 @@
       opacity: 1;
     }
 
-    .modal-section-image {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-    }
-
-    .modal-section-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
     .modal-section-note {
-      padding: 12px 20px;
+      padding: 16px 20px 8px;
       font-size: 13px;
       color: var(--seed-muted);
-      line-height: 1.5;
-      border-top: 1px solid var(--seed-border);
+      line-height: 1.7;
+    }
+
+    .modal-section-gallery {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 12px 20px 20px;
+      scroll-snap-type: x proximity;
+      scrollbar-width: thin;
+      scrollbar-color: var(--seed-primary) transparent;
+    }
+
+    .modal-section-gallery::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .modal-section-gallery::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .modal-section-gallery::-webkit-scrollbar-thumb {
+      background: var(--seed-primary);
+      border-radius: 2px;
+    }
+
+    .modal-section-gallery img {
+      flex-shrink: 0;
+      height: 240px;
+      width: auto;
+      max-width: 380px;
+      object-fit: cover;
+      border-radius: 8px;
+      scroll-snap-align: start;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .modal-section-gallery img:hover {
+      transform: scale(1.02);
+    }
+
+    .modal-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 4px;
+    }
+
+    .modal-highlight-chip {
+      font-size: 12px;
+      color: var(--seed-accent);
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      border-radius: 20px;
+      padding: 5px 14px;
+      line-height: 1.4;
     }
 
     /* ========== Modal Hero Image ========== */
@@ -1308,6 +1351,7 @@
         <div class="modal-tags" id="modal-tags"></div>
         <h3 class="modal-title" id="modal-title"></h3>
         <p class="modal-desc" id="modal-desc"></p>
+        <div id="modal-highlights"></div>
         <div class="modal-sections" id="modal-sections"></div>
       </div>
     </div>
@@ -1340,17 +1384,71 @@
           description: "为雪花啤酒旗下年轻化品牌「勇闯天涯SuperX」策划河南高校电竞赛事，覆盖30+高校、1200+名选手。主导赛事主视觉、H5互动报名页、抽奖小程序UI、系列海报及线下模块化物料设计，实现跨平台品牌视觉一致性。",
           cover: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg",
           sections: [
-            { title: "赛事主视觉", image: "https://raw.githubusercontent.com/miaowusong86-debug/miaowusong86-debug.github.io/main/superx-2025.jpg" },
+            {
+              title: "赛事主视觉",
+              note: "主题「勇闯 2025 够胆就来碰」鲜明有力。视觉核心为 SuperX 瓶罐产品与红蓝双龙元素，蓝色瓶身清爽醒目，液体飞溅动态效果展现啤酒活力。双龙以极具张力的造型代表电竞对抗的激烈交锋，与品牌「勇闯」精神深度共鸣。",
+              images: []
+            },
+            {
+              title: "动态招募长图",
+              note: "面向高校学子的赛事招募长图，以电竞热血氛围为主调，清晰传达报名信息与赛事亮点，激发挑战欲望。",
+              images: []
+            },
+            {
+              title: "报名 H5",
+              note: "H5 互动报名页设计，兼顾信息传达与趣味交互，引导用户完成报名流程。",
+              images: []
+            },
+            {
+              title: "线宣海报",
+              note: "系列线上宣传海报，保持跨平台品牌视觉一致性，覆盖社交媒体多渠道投放。",
+              images: []
+            },
+            {
+              title: "赛事战况长图",
+              note: "赛事进行中发布的战况长图，数据可视化呈现赛况进展，增强观众参与感与话题传播力。",
+              images: []
+            },
+            {
+              title: "报名小程序 UI",
+              note: "报名小程序界面全链路设计，从首页引导到报名完成，建立组件化设计规范，兼顾体验与效率。",
+              images: []
+            },
+            {
+              title: "线下比赛物料",
+              note: "线下赛事模块化物料设计，涵盖舞台背景、签到区、选手席、观众引导等场景，确保线下体验与线上传播的视觉统一。",
+              images: []
+            },
+            {
+              title: "活动现场实景",
+              note: "比赛现场实景记录，包括舞台搭建、选手对战、观众互动等，完整呈现项目落地效果。",
+              images: []
+            }
           ],
           color: TOKENS.primary
         },
         {
           title: "温州大峃镇红色文化纪念馆",
           tags: ["展馆设计", "红色文化", "全案"],
-          description: "温州大峃镇红色纪念馆全案视觉设计执行，负责展馆内所有墙面造型设计、图文版式规划、展线内容分层、参观动线优化及后期制作工艺把控。以红为主色调搭配暖灰，强化庄重感与历史温度。",
+          description: "温州大峃镇红色纪念馆是当地重要的红色文化教育基地，旨在通过沉浸式展陈设计生动呈现革命历史与地域文化特色。作为主视觉设计师，负责全馆平面系统的策划与执行，确保内容叙事与视觉体验的高度统一。",
+          highlights: [
+            "展馆成为当地中小学社会实践固定参观点",
+            "场馆方评价：设计兼具文化严谨性与青少年互动性",
+            "通过材质优化降低印刷费用 15%",
+            "优化导视系统后团队参观效率提升 30%"
+          ],
           cover: "",
           sections: [
-            { title: "展馆主视觉", image: "", note: "待添加图片" },
+            {
+              title: "主题视觉与展陈设计",
+              note: "负责展馆内所有墙面造型设计，构建具有冲击力的叙事空间。主导图文版式设计，对展线进行内容分层（历史事件轴、人物故事区等），充分展现温州大峃镇的红色文化底蕴。以红为主色调搭配暖灰，通过色彩心理学强化庄重感与历史温度。",
+              images: []
+            },
+            {
+              title: "动线规划与落地实景",
+              note: "设计结构布局，优化参观流线，结合互动展项（如触摸屏导览）提升参与度，使平均停留时长增加。负责后期制作工艺选择，确保设计方案精准实现和长期展示效果。最终将落地成本严格控制在预算范围内。",
+              images: []
+            }
           ],
           color: TOKENS.accent
         },
@@ -1360,7 +1458,11 @@
           description: "\"茉+\"咖啡品牌全案设计，以茉莉花为核心视觉意象，从品牌命名、Logo设计到空间视觉与包装周边，塑造清新自然、具有记忆点的咖啡品牌调性。",
           cover: "",
           sections: [
-            { title: "品牌主视觉", image: "", note: "待添加图片" },
+            {
+              title: "品牌视觉全案",
+              note: "涵盖 Logo 设计、标准字、标准色体系、包装周边（杯身、杯套、外卖袋）及空间视觉应用，建立完整的品牌视觉识别系统。",
+              images: []
+            }
           ],
           color: TOKENS.purple
         }
@@ -1500,10 +1602,24 @@
       modalTitle.textContent = project.title;
       modalDesc.textContent = project.description;
 
-      // Render collapsible sections
+      // Render highlights (if any)
+      const highlights = project.highlights || [];
+      const highlightsHTML = highlights.length
+        ? `<div class="modal-highlights">${highlights.map(h => `<span class="modal-highlight-chip">${h}</span>`).join('')}</div>`
+        : '';
+      const highlightsContainer = document.getElementById('modal-highlights');
+      if (highlightsContainer) highlightsContainer.innerHTML = highlightsHTML;
+
+      // Render collapsible sections with gallery support
       const sections = project.sections || [];
       modalSections.innerHTML = sections.map((section, i) => {
-        const imgSrc = section.image || createPlaceholderSVG(section.title, project.color || TOKENS.primary);
+        // Support images array (gallery) or single image fallback
+        const images = section.images || (section.image ? [section.image] : []);
+        const placeholder = createPlaceholderSVG(section.title, project.color || TOKENS.primary);
+        const galleryImages = images.length > 0
+          ? images.map((src, j) => `<img src="${src}" alt="${section.title} ${j + 1}" loading="lazy">`).join('')
+          : `<img src="${placeholder}" alt="${section.title}" loading="lazy">`;
+
         return `
           <div class="modal-section" data-section-index="${i}">
             <div class="modal-section-header" onclick="toggleSection(this)">
@@ -1511,8 +1627,8 @@
               <svg class="modal-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="modal-section-content">
-              <div class="modal-section-image"><img src="${imgSrc}" alt="${section.title}" loading="lazy"></div>
               ${section.note ? `<div class="modal-section-note">${section.note}</div>` : ''}
+              <div class="modal-section-gallery">${galleryImages}</div>
             </div>
           </div>
         `;
